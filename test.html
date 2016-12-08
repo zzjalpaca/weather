@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .box{
+            margin:100px auto;
+            text-align: center;
+
+        }
+
+        #text{
+
+            /*box-sizing: border-box;*/
+            width: 400px;
+            height: 40px;
+            font-size: 16px;
+            border: 1px solid #999;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .btn{
+            width: 100px;
+            height: 40px;
+            background-color: blue;
+            font-size: 16px;
+            box-shadow: none;
+            color: #fff;
+            text-shadow: none;
+        }
+        p{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./node_modules/jquery/dist/jquery.js" charset="utf-8" atuofocus></script>
+    <script type="text/javascript">
+        $(function(){
+            function getJson() {
+                $.getJSON("http://v.juhe.cn/weather/index?callback=?", {
+                    "cityname" : $("#text").val(),
+                    "dtype" : "jsonp",
+                    "key" : "0c11283a2c32fe86e9698b518f95b445"
+                },function(data){
+
+                    var today = data.result.today;
+                    dressingAdvice = today.dressing_advice;
+                    city = today.city;
+                    date = today.date_y;
+                    dressingIndex = today.dressing_index;
+                    temperature = today.temperature;
+                    weather = today.weather;
+                    wind = today.wind;
+                    week = today.week;
+                    var html = "";
+                    html += "<h2>"+city+"</h2>";
+                    html += "<p>"+date+"("+week+")"+"</p>";
+                    html += "<p>"+weather+"</p>";
+                    html += "<p>"+temperature+"</p>";
+                    html += "<p>"+wind+"</p>";
+                    html += "<p>"+dressingAdvice+"</p>"
+                    html += "<p>"+dressingIndex+"</p>"
+                    $(".showData").html(html);
+                })
+            }
+            $(function(){
+                $(".btn").on("click",function(){
+                    getJson();
+                })
+            })
+        })
+    </script>
+
+    <div class="box">
+        <input type="text" placeholder="please enter a city" id='text'>
+        <input type="submit" class="btn" value="Submit">
+        <div class="showData">
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
